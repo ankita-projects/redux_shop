@@ -1,20 +1,22 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.scss";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Basket from "./pages/Basket";
-import Products from "./pages/Products";
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Basket from "./Pages/Basket";
+import Products from "./Pages/Products";
 
 
 const App = () => {
 	return (
+		
 		<Router>
 			<Header />
 			<main>
+		     <div className="background-container">
 				<Switch>
 					<Route path='/about'>
 						<About />
@@ -29,6 +31,7 @@ const App = () => {
 						<Home />
 					</Route>
 				</Switch>
+				</div>
 			</main>
 			<Footer />
 		</Router>
