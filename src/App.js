@@ -1,42 +1,40 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "./App.scss";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeState } from "./store/actions/actions";
+
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-
+import Navigation from "./Components/Navigation";
 import Home from "./Pages/Home";
-import About from "./Pages/About";
-import Basket from "./Pages/Basket";
 import Products from "./Pages/Products";
-
+import Cart from "./Pages/Cart";
 
 const App = () => {
-	return (
-		
-		<Router>
-			<Header />
-			<main>
-		     <div className="background-container">
-				<Switch>
-					<Route path='/about'>
-						<About />
-					</Route>
-					<Route path='/rocks-basket'>
-						<Basket />
-					</Route>
-					<Route path='/products'>
-						<Products />
-					</Route>
-					<Route path='/'>
-						<Home />
-					</Route>
-				</Switch>
-				</div>
-			</main>
-			<Footer />
-		</Router>
-	);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeState());
+  }, [dispatch]);
+
+  const cartItemCount = useSelector((state) =>
+    state.cart.reduce((count, curItem) => {
+      return count + curItem.quantity;
+    }, 0)
+  );
+
+  return (
+    <BrowserRouter>
+	  <Header />
+	  <Footer />
+      <Navigation cartItemCount={cartItemCount} />
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route path="/products" component={Products} exact />
+        <Route path="/cart" component={Cart} exact />
+      </Switch>
+    </BrowserRouter>
+  );
 };
 
 export default App;
-
